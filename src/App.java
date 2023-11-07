@@ -17,16 +17,14 @@ public class App {
                 String leftPart = parts[0].trim();
                 String[] leftPartElements = leftPart.split("\\s+");
                 String rightPart = parts[1].trim();
-                String targetName = rightPart.split("\\s+")[1];
+                String nomeDestino = rightPart.split("\\s+")[1];
 
-                Elemento target = graph.addVertice(targetName);
+                Elemento destino = graph.addVertice(nomeDestino);
                 for (int i = 0; i < leftPartElements.length; i += 2) {
                     int quantidade = Integer.parseInt(leftPartElements[i]);
-                    String sourceName = leftPartElements[i + 1];
-
-                    Elemento source = graph.addVertice(sourceName);
-                    graph.addAresta(source, target, quantidade);
-                    graph.addVertice(targetName).addEntrada();
+                    Elemento origem = graph.addVertice(leftPartElements[i + 1]);
+                    graph.addAresta(origem, destino, quantidade);
+                    graph.addVertice(nomeDestino).addEntrada();
                 }
                 
             }
@@ -40,8 +38,8 @@ public class App {
     }
     /**
      * Método para executar o algoritmo de busca em profundidade
-     * @param origem Vertice origem 
-     * @param destino Vertice destino
+     * @param origem Elemento origem 
+     * @param destino Elemento destino
      * @param graph Grafo que contem somente as ligações dos elementos
      */
     public static void Executa(Elemento origem,Elemento destino,Grafo graph) {
@@ -71,10 +69,10 @@ public class App {
     }
 
     /**
-     * Método para Preencher a pilha com os vertices que saem no vertice origem
-     * @param base Vertice origem
+     * Método para Preencher a pilha com os Elementos que saem do Elemento origem
+     * @param base Elemento origem
      * @param graph Classe graph que contem as ligações dos elementos
-     * @return Fila preenchida com os vertices que saem do vertice origem
+     * @return Fila preenchida com os Elementos que saem do vertice origem
      */
     public static Stack<Elemento> fillStack (Elemento base, Grafo graph){
         Stack<Elemento> pilha = new Stack<>();
