@@ -7,30 +7,24 @@ import java.util.*;
 public class App {
     public static void main(String[] args) throws Exception {
         Grafo graph = new Grafo();
-        Map<String, Vertice> verticeMap = new HashMap<>();
-        // String fileName = "caso0020.txt";
-        // String fileName = "JBCasos/casof180.txt";
-         String fileName = "CohenCasos/casof360.txt";
-
+         
+         String fileName = "JBCasos/caso0360.txt";
+        fileName = "CohenCasos/casof360.txt";
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] parts = line.split("->");
-
-                
                 String leftPart = parts[0].trim();
                 String[] leftPartElements = leftPart.split("\\s+");
-
                 String rightPart = parts[1].trim();
                 String targetName = rightPart.split("\\s+")[1];
-                
 
-                Vertice target = graph.addVertice(targetName);
+                Elemento target = graph.addVertice(targetName);
                 for (int i = 0; i < leftPartElements.length; i += 2) {
                     int quantidade = Integer.parseInt(leftPartElements[i]);
                     String sourceName = leftPartElements[i + 1];
 
-                    Vertice source = graph.addVertice(sourceName);
+                    Elemento source = graph.addVertice(sourceName);
                     graph.addAresta(source, target, quantidade);
                     graph.addVertice(targetName).addEntrada();
                 }
@@ -39,45 +33,56 @@ public class App {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Vertice base = graph.addVertice("hidrogenio");
-        Vertice destino = graph.addVertice("ouro");
-        Executa(base,destino,graph);
-        System.out.print(destino.getNumHidrogenios()  );
+        Elemento origem = graph.addVertice("hidrogenio");
+        Elemento destino = graph.addVertice("ouro");
+        Executa(origem,destino,graph);
 
     }
-    public static void Executa(Vertice base, Vertice destino,Grafo graph) {
-        Stack<Vertice> pilha = fillStack(base, graph);
-        Map <Vertice, Integer > map = new HashMap<>();
+    /**
+     * Método para executar o algoritmo de busca em profundidade
+     * @param origem Vertice origem 
+     * @param destino Vertice destino
+     * @param graph Grafo que contem somente as ligações dos elementos
+     */
+    public static void Executa(Elemento origem,Elemento destino,Grafo graph) {
+        Stack<Elemento> pilha = fillStack(origem, graph);
+        Map <Elemento, Integer > map = new HashMap<>();
+
         while (!pilha.isEmpty()) {
-            Vertice v = pilha.pop();
+            Elemento v = pilha.pop();
             map.put(v, map.getOrDefault(v, 0) + 1);            
-            List<Aresta> arestas = graph.getGraph().get(v);
+            List<Ligacao> arestas = graph.getGraph().get(v);
             
             if (arestas != null && v.getNumeroEntradas() == map.get(v)) { 
-                for (Aresta a : arestas) {
-                    Vertice v2 = a.getVerticeDestino();
-                    if (v2.getVisitado()) {
+                for (Ligacao a : arestas) {
+                    Elemento v2 = a.getVerticeDestino();
+                    if (map.get(v2) != null) {
                         BigInteger pesoAresta = new BigInteger(Integer.toString(a.getPeso()));
                         v2.setNumHidrogenios(pesoAresta.multiply(v.getNumHidrogenios()).add(v2.getNumHidrogenios()));
                     } else {
                         BigInteger pesoAresta = new BigInteger(Integer.toString(a.getPeso()));
                         v2.setNumHidrogenios(pesoAresta.multiply(v.getNumHidrogenios()));
-                        v2.setVisitado(true);
                     }
                     pilha.add(v2);
                 }
             }
         }
+        System.out.println(destino.getNumHidrogenios());
     }
 
-    public static Stack<Vertice> fillStack (Vertice source, Grafo graph){
-        Stack<Vertice> pilha = new Stack<>();
-        List<Aresta> vertices = graph.getGraph().get(source);
-        for(Aresta a : vertices){
-            Vertice v = a.getVerticeDestino();
+    /**
+     * Método para Preencher a pilha com os vertices que saem no vertice origem
+     * @param base Vertice origem
+     * @param graph Classe graph que contem as ligações dos elementos
+     * @return Fila preenchida com os vertices que saem do vertice origem
+     */
+    public static Stack<Elemento> fillStack (Elemento base, Grafo graph){
+        Stack<Elemento> pilha = new Stack<>();
+        List<Ligacao> vertices = graph.getGraph().get(base);
+        for(Ligacao a : vertices){
+            Elemento v = a.getVerticeDestino();
              BigInteger pesoAresta = new BigInteger(Integer.toString(a.getPeso()));
             v.setNumHidrogenios(pesoAresta.multiply(v.getNumHidrogenios()));
-            v.setVisitado(true);
             pilha.add(v);
         }
         return pilha;

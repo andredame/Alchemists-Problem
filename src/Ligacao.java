@@ -1,22 +1,22 @@
-public class Aresta {
-    private Vertice verticeOrigem;
-    private Vertice verticeDestino;
+public class Ligacao {
+    private Elemento verticeOrigem;
+    private Elemento verticeDestino;
     private int peso;
 
-    public Aresta( Vertice verticeOrigem,Vertice verticeDestino, int peso) {
+    public Ligacao( Elemento verticeOrigem,Elemento verticeDestino, int peso) {
         this.verticeOrigem = verticeOrigem;
         this.verticeDestino = verticeDestino;
         this.peso = peso;
     }
 
-    public Vertice getVerticeOrigem() {
+    public Elemento getVerticeOrigem() {
         return verticeOrigem;
     }
-    public Vertice getVerticeDestino() {
+    public Elemento getVerticeDestino() {
         return verticeDestino;
     }
 
-    public void setVerticeDestino(Vertice verticeDestino) {
+    public void setVerticeDestino(Elemento verticeDestino) {
         this.verticeDestino = verticeDestino;
     }
 
