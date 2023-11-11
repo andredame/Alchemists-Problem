@@ -1,0 +1,6 @@
+1 hidrogenio -> 1 erbio 
+7 hidrogenio -> 1 cromo
+8 hidrogenio -> 1 zinco
+10 zinco -> 1 proto
+3 erbio 2 zinco -> 1 cesio 
+4 cromo 6 cesio 7 proto -> 1 ouro             
