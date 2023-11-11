@@ -9,6 +9,7 @@ public class Elemento{
     public Elemento(String nome){
         this.nome = nome;
         this.numeroEntradas = 0;
+        this.numHidrogenios = BigInteger.ZERO;
     }
     public String getNome(){
         return nome;
@@ -31,6 +32,9 @@ public class Elemento{
    
     public void addEntrada(){
         this.numeroEntradas++;
+    }
+    public void addHidrogenio(BigInteger numHidrogenios){
+        this.numHidrogenios = this.numHidrogenios.add(numHidrogenios);
     }
    
     

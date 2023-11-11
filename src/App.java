@@ -6,11 +6,11 @@ import java.util.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        String[] casos = {"020","040","080","120","180","240","280","320","360"};
+        String[] casos = {"040","080","120","180","240","280","320","360"};
         for(int i = 0 ;i<casos.length;i++){
             Grafo graph = new Grafo();
 
-            String filename = "JBCasos/caso0"+(casos[i])+".txt";
+            String filename = "caso0"+(casos[i])+".txt";
             System.out.print( "caso0"+(casos[i])+".txt ");
             try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
                 String line;
@@ -37,6 +37,7 @@ public class App {
             Elemento origem = graph.addVertice("hidrogenio");
             Elemento destino = graph.addVertice("ouro");
             // Adiciona um contador de tempo
+            origem.setNumHidrogenios(BigInteger.ONE);
             long startTime = System.currentTimeMillis();
             
             Caminhamento(origem, destino, graph);
@@ -65,14 +66,11 @@ public class App {
             if (arestas != null && v.getNumeroEntradas() == map.get(v)) { 
                 for (Ligacao a : arestas) {
                     Elemento v2 = a.getVerticeDestino();
-                    if (map.get(v2) != null ) {
-                        BigInteger pesoAresta = new BigInteger(Integer.toString(a.getPeso()));
-                        v2.setNumHidrogenios(pesoAresta.multiply(v.getNumHidrogenios()).add(v2.getNumHidrogenios()));
-                    } else {
-                        BigInteger pesoAresta = new BigInteger(Integer.toString(a.getPeso()));
-                        v2.setNumHidrogenios(pesoAresta.multiply(v.getNumHidrogenios()));
+                    BigInteger pesoAresta = new BigInteger(Integer.toString(a.getPeso()));
+                    v2.addHidrogenio(pesoAresta.multiply(v.getNumHidrogenios()));
+                    if(!v2.getNome().equals("ouro")){
+                        pilha.add(v2);
                     }
-                    pilha.add(v2);
                 }
             }
         }
@@ -91,7 +89,7 @@ public class App {
         for(Ligacao a : vertices){
             Elemento v = a.getVerticeDestino();
             BigInteger pesoAresta = new BigInteger(Integer.toString(a.getPeso()));
-            v.setNumHidrogenios(pesoAresta);
+            v.addHidrogenio(pesoAresta);
             pilha.add(v);
         }
         return pilha;
