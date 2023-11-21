@@ -87,14 +87,11 @@ Follow the steps bellow to solve the problem:
 
 - **If False:**
     - Return to Step 4.
+ 
+## Author: @andredame
+
+This solution is implemented in Java, and the source code is located in the `src` folder. All the recipes are stored as ".txt" files in the repository.
 
 
-#Demonstração do funcionamento do algoritmo
-Segue abaixo 
-
-
-
-
-Césio: 0
 
 
